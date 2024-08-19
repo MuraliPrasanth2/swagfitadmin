@@ -12,7 +12,7 @@ const Slots = ({ documents, error, loading, highlightPhoneNumber }) => {
                     {!documents.length && (
                         <div className="text-center text-gray-500">No records to show</div>
                     )}
-                    {documents.length != 0 && (
+                    {documents.length !== 0 && (
                         <div className="flex gap-4 flex-wrap justify-left items-stretch">
                             {documents.map((doc, index) => (
                                 <Slot
