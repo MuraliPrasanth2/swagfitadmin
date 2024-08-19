@@ -39,7 +39,7 @@ export default function Slot({
 
     return (
         <div
-            className={`p-6 rounded-md ${cardBgColor} text-white shadow-xl transition-transform transform hover:scale-105 duration-300 w-full md:w-auto`}
+            className={`p-6 rounded-md ${cardBgColor} text-white shadow-xl transition-transform transform duration-300 w-full md:w-auto`}
         >
             <div className="mb-1 text-normal font-bold text-gray-100">{name}</div>
             <div className="mb-1 text-gray-500 text-sm">
