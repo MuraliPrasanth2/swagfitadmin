@@ -2,6 +2,9 @@ import React from "react";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import PaymentInfo from "./PaymentInfo";
+import { Link } from "react-router-dom";
+import { FaWhatsapp } from "react-icons/fa";
+import { IoMdCall } from "react-icons/io";
 
 dayjs.extend(isBetween);
 
@@ -11,6 +14,7 @@ export default function Slot({
     email,
     paymentInfo,
     highlightPhoneNumber,
+    programName,
 }) {
     // Function to check if today is between the 'from' and 'to' dates
     const isCurrent = (from, to) =>
@@ -21,7 +25,7 @@ export default function Slot({
         isCurrent(payment.from, payment.to),
     );
 
-    const cardBgColor = hasCurrentPayment ? "bg-green-950" : "bg-stone-800";
+    const cardBgColor = hasCurrentPayment ? "bg-green-950" : "bg-neutral-800";
 
     const highlightText = (text, highlight) => {
         if (!highlight) return text;
@@ -44,9 +48,33 @@ export default function Slot({
             <div className="mb-1 text-normal font-bold text-gray-100">{name}</div>
             <div className="mb-1 text-gray-500 text-sm">
                 {highlightText(phoneNumber, highlightPhoneNumber)}
+
+                <a
+                    href={`https://wa.me/${phoneNumber.slice(1)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <FaWhatsapp className="ml-4 text-2xl text-neutral-500 inline-block" />
+                </a>
+                <a
+                    href={`tel:${phoneNumber.slice(1)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <IoMdCall className="ml-2 text-2xl text-neutral-500 inline-block" />
+                </a>
             </div>
             <div className="mb-3 text-gray-500 text-sm">{email}</div>
+            <span className="text-normal text-gray-300 font-semibold">
+                Payment Info:
+            </span>
             <PaymentInfo paymentInfo={paymentInfo} />
+            <Link
+                className="block w-full text-center px-6 py-2 bg-[#515dab] text-white rounded-sm mt-4"
+                to={"/slotdetails?program=" + programName + "&id=" + phoneNumber}
+            >
+                Slot details
+            </Link>
         </div>
     );
 }

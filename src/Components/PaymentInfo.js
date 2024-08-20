@@ -19,9 +19,6 @@ const PaymentInfo = ({ paymentInfo }) => {
 
     return (
         <div>
-            <span className="text-normal text-gray-300 font-semibold">
-                Payment Info:
-            </span>
             {!sortedPayments.length && (
                 <div className="text-gray-400 mt-2">
                     No payment info available for this slot.
