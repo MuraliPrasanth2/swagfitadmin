@@ -49,10 +49,10 @@ export default function Slot({
 					setIsPopOpen(false);
 				})
 				.catch((err) => {
-					console.log(err);
+					// console.log(err);
 				});
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 

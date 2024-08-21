@@ -29,7 +29,7 @@ const PaymentInfo = ({
 	);
 
 	function handleDeletePayment(paymentToDelete) {
-		console.log(valuesInDb);
+		// console.log(valuesInDb);
 		const filteredPaymentInfo = valuesInDb.paymentInfo.filter((payment) => {
 			return !(
 				payment.from === paymentToDelete.from &&
@@ -39,8 +39,8 @@ const PaymentInfo = ({
 			);
 		});
 
-		console.log(valuesInDb.paymentInfo);
-		console.log(filteredPaymentInfo);
+		// console.log(valuesInDb.paymentInfo);
+		// console.log(filteredPaymentInfo);
 
 		const updatedValues = {
 			...valuesInDb,
@@ -57,16 +57,16 @@ const PaymentInfo = ({
 		);
 		if (confirmDelete) {
 			try {
-				console.log(db, programName, phoneNumber);
+				// console.log(db, programName, phoneNumber);
 				setDoc(doc(db, programName, phoneNumber), updatedValues)
 					.then(() => {
-						console.log("deleted ", paymentToDelete);
+						// console.log("deleted ", paymentToDelete);
 					})
 					.catch((err) => {
-						console.log(err);
+						// console.log(err);
 					});
 			} catch (err) {
-				console.log(err);
+				// console.log(err);
 			}
 		}
 	}
