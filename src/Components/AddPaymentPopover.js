@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
 import { GiReceiveMoney } from "react-icons/gi";
+import { slotName } from "../Helpers/slotNames";
 
 export default function AddPaymentPopover({
 	phoneNumber,
@@ -50,7 +51,7 @@ export default function AddPaymentPopover({
 					x
 				</button>
 				<div className="font-semibold text-gray-500 text-center">
-					{programName}
+					{slotName[programName]}
 				</div>
 				<div className="font-bold text-gray-300 text-center">{name}</div>
 				<form className="flex-col" onSubmit={handleAddMoneyClick}>

@@ -6,6 +6,7 @@ import { collection } from "firebase/firestore";
 import Slots from "../Components/Slots";
 import filterDocuments from "../Helpers/filterDocuments";
 import generateRandomPaymentInfo from "../Helpers/randomPaymentInfoGenerator";
+import sortByName from "../Helpers/sortByName";
 
 function AllSlots() {
     // filter states
@@ -36,10 +37,8 @@ function AllSlots() {
     }, [value]);
 
     console.log("filters values", phoneNumber, program, paymentStatus);
-    const filteredDocuments = filterDocuments(
-        documents,
-        phoneNumber,
-        paymentStatus,
+    const filteredDocuments = sortByName(
+        filterDocuments(documents, phoneNumber, paymentStatus),
     );
     console.log("documents", documents);
     console.log("filteredDocuments", filteredDocuments);

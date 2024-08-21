@@ -1,17 +1,17 @@
-import { doc } from "firebase/firestore";
+import React, { useState, useEffect } from "react";
+import dayjs from "dayjs";
+import { doc, setDoc } from "firebase/firestore";
 import { useDocument } from "react-firebase-hooks/firestore";
 import { Link, useLocation } from "react-router-dom";
 import { db } from "../firebase/config";
 import PaymentInfo from "../Components/PaymentInfo";
-import dayjs from "dayjs";
-import { useEffect, useState } from "react";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp, FaHome } from "react-icons/fa";
 import { IoMdCall } from "react-icons/io";
-import { FaHome } from "react-icons/fa";
 import RemainingDetails from "../Components/RemainigDetails";
 import { remainingDetailsArray } from "../Data/remainingDetailsArrays";
 import { GiReceiveMoney } from "react-icons/gi";
 import { slotName } from "../Helpers/slotNames";
+import AddPaymentPopover from "../Components/AddPaymentPopover"; // Import AddPaymentPopover
 
 const useQuery = () => {
 	return new URLSearchParams(useLocation().search);
@@ -26,6 +26,8 @@ const SlotDetails = () => {
 	const [value, loading, error] = useDocument(doc(db, program, id), {
 		snapshotListenOptions: { includeMetadataChanges: true },
 	});
+
+	const [isPopOpen, setIsPopOpen] = useState(false); // State for popover
 
 	useEffect(() => {
 		if (value && value.exists()) {
@@ -42,30 +44,56 @@ const SlotDetails = () => {
 		}
 	}, [value, program]);
 
-	console.log(program);
-	console.log(id);
-	console.log(value, loading, error);
-	console.log("document", document);
-	if (value) {
-		if (value.exists()) {
-			console.log(value.data());
+	const handleAddMoney = () => {
+		setIsPopOpen(true); // Open the popover
+	};
+
+	const handlePopOverCloseButtonClick = () => {
+		setIsPopOpen(false); // Close the popover
+	};
+
+	const AddMoney = (phoneNumber, from, to, amount, addedAt) => {
+		let paymentInfo = document.paymentInfo || [];
+		paymentInfo.push({ from, to, amount, addedAt });
+		const updatedValues = { ...document.valuesInDb, paymentInfo };
+		try {
+			setDoc(doc(db, program, phoneNumber), updatedValues)
+				.then(() => {
+					setIsPopOpen(false); // Close the popover after adding payment
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		} catch (err) {
+			console.log(err);
 		}
-	}
+	};
 
 	return (
 		<div>
 			<p>
 				{error && <strong>Error loading data for this slot.</strong>}
 				{loading && <span>Loading...</span>}
-				{document && UserProfile({ user: document })}
+				{document && UserProfile({ user: document, handleAddMoney })}
 			</p>
+
+			{isPopOpen && (
+				<AddPaymentPopover
+					phoneNumber={document.phoneNumber}
+					programName={document.programName}
+					name={document.name}
+					valuesInDb={document.valuesInDb}
+					onClose={handlePopOverCloseButtonClick}
+					onAddPayment={AddMoney}
+				/>
+			)}
 		</div>
 	);
 };
 
 export default SlotDetails;
 
-function UserProfile({ user }) {
+function UserProfile({ user, handleAddMoney }) {
 	return (
 		<>
 			<Link to="/">
@@ -116,10 +144,15 @@ function UserProfile({ user }) {
 							valuesInDb={user.valuesInDb}
 							documentId={user.id}
 							collectionName={user.program}
+							phoneNumber={user.phoneNumber}
+							programName={user.program}
 						/>
 					</div>
 
-					<button className="block w-full text-center px-6 py-2 bg-gray-900 text-white rounded-sm mt-4 flex justify-center">
+					<button
+						className="block w-full text-center px-6 py-2 bg-gray-900 text-white rounded-sm mt-4 flex justify-center"
+						onClick={handleAddMoney} // Open popover on click
+					>
 						<GiReceiveMoney className="text-2xl text-green-400" />
 					</button>
 				</div>
