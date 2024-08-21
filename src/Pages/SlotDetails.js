@@ -9,9 +9,19 @@ import { useEffect, useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoMdCall } from "react-icons/io";
 import { FaHome } from "react-icons/fa";
+import RemainingDetails from "../Components/RemainigDetails";
+import { remainingDetailsArray } from "../Data/remainingDetailsArrays";
+import { GiReceiveMoney } from "react-icons/gi";
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
+};
+
+const slotName = {
+    groupFitness: "Group Fitness",
+    personalDanceTraining: "Dance PT",
+    personalFitness: "Personal Training",
+    psysioFitness: "Physio PT",
 };
 
 const SlotDetails = () => {
@@ -24,13 +34,6 @@ const SlotDetails = () => {
         snapshotListenOptions: { includeMetadataChanges: true },
     });
 
-    const slotName = {
-        groupFitness: "Group Fitness",
-        personalDanceTraining: "Dance PT",
-        personalFitness: "Personal Training",
-        psysioFitness: "Physio PT",
-    };
-
     useEffect(() => {
         if (value && value.exists()) {
             const document = {
@@ -38,14 +41,16 @@ const SlotDetails = () => {
                 id: value.id,
                 phoneNumber: value.id,
                 programName: slotName[program],
+                programNameInDb: program,
             };
             setDocument(document);
         }
-    }, [value]);
+    }, [value, program]);
 
     console.log(program);
     console.log(id);
     console.log(value, loading, error);
+    console.log("document", document);
     if (value) {
         if (value.exists()) {
             console.log(value.data());
@@ -115,51 +120,17 @@ function UserProfile({ user }) {
                             paymentInfo={user.paymentInfo || generateRandomPaymentInfo()}
                         />
                     </div>
-                    <button className="mt-4 bg-cyan-950 hover:bg-cyan-800 text-white font-semibold py-2 px-4 rounded transition duration-300 w-full md:w-auto">
-                        Add Payment
+
+                    <button className="block w-full text-center px-6 py-2 bg-gray-900 text-white rounded-sm mt-4 flex justify-center">
+                        <GiReceiveMoney className="text-2xl text-green-400" />
                     </button>
                 </div>
 
                 {/* Remaining Details Section */}
-                <div className="mt-4">
-                    <h2 className="text-xl font-bold text-gray-300">Remaining Details</h2>
-                    <div className="p-4 text-gray-400 space-y-2 text-sm">
-                        <div className="">
-                            <span className="font-semibold block">Occupation</span>
-                            <span className="pl-4 block">{user.occupation}</span>
-                        </div>
-                        <div className="">
-                            <span className="font-semibold block">Address</span>
-                            <span className="ml-4 block">{user.address}</span>
-                        </div>
-                        <div className="">
-                            <span className="font-semibold block">Timing</span>
-                            <span className="ml-4 block">{user.timing}</span>
-                        </div>
-                        <div className="mb-1">
-                            <span className="font-semibold block">Fitness Program Names</span>
-                            <span className="ml-4 block">{user.fitnessProgramNames}</span>
-                        </div>
-                        <div className="mb-1">
-                            <span className="font-semibold block">Fitness Goals</span>
-                            <span className="ml-4 block">{user.fitnessGoals.join(", ")}</span>
-                        </div>
-                        <div className="mb-1">
-                            <span className="font-semibold block">
-                                Prior Fitness Experience
-                            </span>
-                            <span className="ml-4 block">{user.priorFitnessExperience}</span>
-                        </div>
-                        <div className="mb-1">
-                            <span className="font-semibold block">Medical Conditions</span>
-                            <span className="ml-4 block">{user.medicalConditions}</span>
-                        </div>
-                        <div className="mb-1">
-                            <span className="font-semibold block">Basic Equipment</span>
-                            <span className="ml-4 block">{user.basicEquipment}</span>
-                        </div>
-                    </div>
-                </div>
+                <RemainingDetails
+                    user={user}
+                    remainingDetailsArray={remainingDetailsArray[user.programNameInDb]}
+                />
             </div>
         </>
     );
