@@ -27,9 +27,9 @@ function AllSlots() {
                     const data = doc.data();
                     const paymentInfo = data.paymentInfo
                         ? data.paymentInfo
-                        : generateRandomPaymentInfo();
-                    //  : [];
-                    return { id: doc.id, ...doc.data(), paymentInfo };
+                        : // : generateRandomPaymentInfo();
+                        [];
+                    return { id: doc.id, ...doc.data(), paymentInfo, valuesInDb: data };
                 }),
             );
         }
