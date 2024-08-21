@@ -5,6 +5,10 @@ import PaymentInfo from "./PaymentInfo";
 import { Link } from "react-router-dom";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoMdCall } from "react-icons/io";
+// import { CgDetailsMore } from "react-icons/cg";
+import { TbListDetails } from "react-icons/tb";
+import { GiReceiveMoney } from "react-icons/gi";
+import AddPaymentPopover from "./AddPaymentPopover";
 
 dayjs.extend(isBetween);
 
@@ -69,12 +73,17 @@ export default function Slot({
                 Payment Info:
             </span>
             <PaymentInfo paymentInfo={paymentInfo} />
-            <Link
-                className="block w-full text-center px-6 py-2 bg-[#515dab] text-white rounded-sm mt-4"
-                to={"/slotdetails?program=" + programName + "&id=" + phoneNumber}
-            >
-                Slot details
-            </Link>
+            <div className="flex space-x-2">
+                <button className="block w-full text-center px-6 py-2 bg-gray-900 text-white rounded-sm mt-4 flex justify-center">
+                    <GiReceiveMoney className="text-2xl text-green-400" />
+                </button>
+                <Link
+                    className="block w-full text-center px-4 py-2 bg-black text-white rounded-sm mt-4 flex justify-center"
+                    to={"/slotdetails?program=" + programName + "&id=" + phoneNumber}
+                >
+                    <TbListDetails className="text-2xl text-violet-500" />
+                </Link>
+            </div>
         </div>
     );
 }
