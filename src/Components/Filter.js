@@ -1,6 +1,8 @@
 import React from "react";
 
 export default function Filter({
+	name,
+	setName,
 	phoneNumber,
 	setPhoneNumber,
 	program,
@@ -10,6 +12,16 @@ export default function Filter({
 }) {
 	return (
 		<div className="flex flex-col md:flex-row gap-4 mb-5 pt-5">
+			<div className="w-full md:w-1/4">
+				<label className="block text-sm font-medium mb-2">Name</label>
+				<input
+					type="text"
+					value={name}
+					onChange={(e) => setName(e.target.value)}
+					className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-black sm:text-sm"
+					placeholder="Enter name"
+				/>
+			</div>
 			<div className="w-full md:w-1/3">
 				<label className="block text-sm font-medium mb-2">Phone Number</label>
 				<input

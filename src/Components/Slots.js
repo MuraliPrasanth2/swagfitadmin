@@ -6,8 +6,9 @@ const Slots = ({
 	loading,
 	highlightPhoneNumber,
 	programName,
+	highlightName,
 }) => {
-	console.log("highlightPhoneNumber", highlightPhoneNumber);
+	// console.log("highlightPhoneNumber", highlightPhoneNumber);
 	return (
 		<>
 			{error && <strong>Error loading data...</strong>}
@@ -30,6 +31,7 @@ const Slots = ({
 									highlightPhoneNumber={highlightPhoneNumber}
 									programName={programName}
 									valuesInDb={doc.valuesInDb}
+									highlightName={highlightName}
 								/>
 							))}
 						</div>

@@ -21,6 +21,7 @@ export default function Slot({
 	highlightPhoneNumber,
 	programName,
 	valuesInDb,
+	highlightName,
 }) {
 	const isCurrent = (from, to) =>
 		dayjs().isBetween(dayjs(from), dayjs(to), "day", "[]");
@@ -77,7 +78,9 @@ export default function Slot({
 			<div
 				className={`p-6 rounded-md ${cardBgColor} text-white shadow-xl transition-transform transform duration-300 w-full md:w-auto`}
 			>
-				<div className="mb-1 text-normal font-bold text-gray-100">{name}</div>
+				<div className="mb-1 text-normal font-bold text-gray-100">
+					{highlightText(name, highlightName)}
+				</div>
 				<div className="mb-1 text-gray-500 text-sm">
 					{highlightText(phoneNumber, highlightPhoneNumber)}
 

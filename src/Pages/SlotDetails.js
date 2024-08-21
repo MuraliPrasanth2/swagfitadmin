@@ -62,10 +62,10 @@ const SlotDetails = () => {
 					setIsPopOpen(false); // Close the popover after adding payment
 				})
 				.catch((err) => {
-					console.log(err);
+					// console.log(err);
 				});
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 
@@ -146,6 +146,7 @@ function UserProfile({ user, handleAddMoney }) {
 							collectionName={user.program}
 							phoneNumber={user.phoneNumber}
 							programName={user.program}
+							name={user.name}
 						/>
 					</div>
 
